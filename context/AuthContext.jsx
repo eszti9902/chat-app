@@ -31,10 +31,11 @@ export function AuthProvider({ children }) {
             await setDoc(doc(db, 'userchat', userCredential.user.uid), {
                 chats: []
             });
-            return userCredential;
+            return { success: true, userCredential };
 
         } catch (error) {
             console.log('Sign up error: ' + error.message)
+            return { success: false, errorMessage: error.message }
         }
     }
 

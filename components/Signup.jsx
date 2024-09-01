@@ -20,8 +20,12 @@ export default function Signup() {
         e.preventDefault()
         setAuthenticating(true)
         try {
-            await signup(username, email, password)
-            router.push("/api/login")
+            const registrationResult = await signup(username, email, password)
+            if (registrationResult.success) {
+                router.push("/api/login")
+            } else {
+                alert("This user already exists, please try again or log in!")
+            }
         } catch (error) {
             console.log(error.message)
         } finally {
