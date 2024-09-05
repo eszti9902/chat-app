@@ -22,7 +22,7 @@ export default function Signup() {
         try {
             const registrationResult = await signup(username, email, password)
             if (registrationResult.success) {
-                router.push("/api/login")
+                router.push("/login")
             } else {
                 alert("This user already exists, please try again or log in!")
             }
@@ -64,7 +64,7 @@ export default function Signup() {
                 </div>
             </form>
             <p className='text-center'>Already have an account?
-                <Link href={"/api/login"}>
+                <Link href={"/login"}>
                     <button className='text-slate-600'>Log In</button>
                 </Link>
             </p>

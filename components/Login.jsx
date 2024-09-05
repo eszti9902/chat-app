@@ -20,7 +20,7 @@ export default function Login() {
         setAuthenticating(true)
         try {
             await login(email, password)
-            router.push("/api/chat")
+            router.push("/chat")
         } catch (error) {
             console.log(error.message)
         } finally {
@@ -52,7 +52,7 @@ export default function Login() {
                 </div>
             </form>
             <p className='text-center'>Don&#39;t have an account?
-                <Link href={"/api/signup"}>
+                <Link href={"/signup"}>
                     <button className='text-slate-600'>Sign up</button>
                 </Link>
             </p>

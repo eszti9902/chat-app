@@ -1,15 +1,14 @@
 'use client'
 import { useAuth } from '@/context/AuthContext'
-import React, { useEffect, useState } from 'react'
-import Login from './Login'
-import Loading from './Loading'
-import Button from './Button'
-import { signOut } from 'firebase/auth'
-import { auth } from '@/firebase'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import Chatlist from './Chatlist'
+import Loading from './Loading'
+import Login from './Login'
+import AddUser from './AddUser'
 
 export default function Chat() {
-    const { currentUser, userDataObj, loading, logout, signout } = useAuth()
+    const { currentUser, userDataObj, loading, logout } = useAuth()
     const [data, setData] = useState({})
 
     useEffect(() => {
@@ -31,6 +30,7 @@ export default function Chat() {
     return (
         <>
             <div>Chat</div>
+            <Chatlist />
             <Link href={"/"}>
                 <button onClick={logout} type="button">Log out</button>
             </Link>

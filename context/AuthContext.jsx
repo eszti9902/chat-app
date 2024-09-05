@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
     const [userDataObj, setUserDataObj] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    //auth handlers
+
     const signup = async (username, email, password) => {
         try {
             // create the user
@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
                 createdAt: new Date(),
                 id: userCredential.user.uid,
             });
-            await setDoc(doc(db, 'userchat', userCredential.user.uid), {
+            await setDoc(doc(db, 'userchats', userCredential.user.uid), {
                 chats: []
             });
             return { success: true, userCredential };
@@ -48,13 +48,14 @@ export function AuthProvider({ children }) {
             setUserDataObj(null)
             setCurrentUser(null)
             console.log("logged out")
-            return await signOut(auth)
+            return await signOut(auth);
         } catch (error) {
             console.log("Error logging out: " + error.message)
         }
     }
 
     useEffect(() => {
+
         const unsubscribe = onAuthStateChanged(auth, async user => {
             console.log(user)
             try {
