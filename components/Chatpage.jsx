@@ -34,16 +34,14 @@ export default function ChatPage() {
     // localStorage.clear();
     // sessionStorage.clear();
     return (
-        <>
-            <div className='flex px-4 sm:px-8 h-fit'>
-                <div className={`${isChatlistVisible ? 'block' : 'hidden'} sm:block sm:w-1/3 overflow-y-auto flex-col`}>
-                    <Chatlist />
-                </div>
-                <div className='flex-1 sm:w-2/3 overflow-y-auto flex-col'>
-                    <button className='sm:hidden fixed bottom-4 left-4 p-3 rounded-full' onClick={toggleChatList}>{isChatlistVisible ? 'Close' : 'Open'}</button>
-                    <Chats />
-                </div>
+        <div className='flex flex-1 px-4 sm:px-8 h-full'>
+            <div className={`${isChatlistVisible ? 'block' : 'hidden'} sm:block sm:w-1/5 h-full overflow-y-auto`}>
+                <Chatlist />
             </div>
-        </>
+            <div className='flex flex-1 sm:w-4/5 flex-col h-full'>
+                <button className='sm:hidden fixed bottom-4 left-4 p-3 rounded-full' onClick={toggleChatList}>{isChatlistVisible ? 'Close' : 'Open'}</button>
+                <Chats />
+            </div>
+        </div>
     )
 }
