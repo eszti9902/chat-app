@@ -1,12 +1,11 @@
-import Chat from "@/components/Chat";
-import Login from "@/components/Login";
+import ChatPage from "@/components/Chatpage";
 import Main from "@/components/Main";
 
-export default function ChatPage() {
+export default function ChatWindow() {
 
     return (
         <Main>
-            <Chat />
+            <ChatPage />
         </Main>
     )
 }

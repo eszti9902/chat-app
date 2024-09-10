@@ -3,6 +3,7 @@ import { useAuth } from '@/context/AuthContext'
 import { db } from '@/firebase'
 import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import React, { useState } from 'react'
+import { IoPersonAdd } from "react-icons/io5";
 
 export default function AddUser() {
     const [user, setUser] = useState(null)
@@ -34,7 +35,7 @@ export default function AddUser() {
             console.error('User to add is not selected or invalid');
             return;
         }
-
+        //firebases logikát kiszedni
         try {
             const chatRef = collection(db, "chats");
             const userChatsRef = collection(db, "userchats");
@@ -79,7 +80,7 @@ export default function AddUser() {
             </form>
             {user && <div>
                 <span>{user.username}</span>
-                <button onClick={handleAdd}>Add user</button>
+                <button onClick={handleAdd}><IoPersonAdd /></button>
             </div>
             }
         </div>
