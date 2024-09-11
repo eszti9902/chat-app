@@ -34,8 +34,8 @@ export default function ChatPage() {
     // localStorage.clear();
     // sessionStorage.clear();
     return (
-        <div className='flex flex-1 px-4 sm:px-8 h-full'>
-            <div className={`${isChatlistVisible ? 'block' : 'hidden'} sm:block sm:w-1/5 h-full overflow-y-auto`}>
+        <div className='flex flex-1 px-0 sm:px-8 h-full'>
+            <div className={`${isChatlistVisible ? 'block' : 'hidden'} sm:block sm:w-1/5 h-full overflow-y-auto px-4`}>
                 <Chatlist />
             </div>
             <div className='flex flex-1 sm:w-4/5 flex-col h-full'>

@@ -2,6 +2,7 @@
 import { useAuth } from '@/context/AuthContext'
 import { db } from '@/firebase'
 import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import Image from 'next/image'
 import React, { useState } from 'react'
 import { IoPersonAdd } from "react-icons/io5";
 
@@ -35,7 +36,6 @@ export default function AddUser() {
             console.error('User to add is not selected or invalid');
             return;
         }
-        //firebases logikát kiszedni
         try {
             const chatRef = collection(db, "chats");
             const userChatsRef = collection(db, "userchats");
@@ -73,16 +73,28 @@ export default function AddUser() {
 
 
     return (
-        <div>
-            <form onSubmit={handleSearch}>
-                <input type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
-                <button type='submit'>Search</button>
+        //<div className='relative'>
+        <div className='p-3 h-max w-max bg-[#D1007D] rounded inset-0 m-auto fixed items-center justify-center'>
+            <form className='flex gap-2' onSubmit={handleSearch}>
+                <input className='p-2 rounded border-none outline-none w-4/5' type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
+                <button className='p-2 rounded bg-[#D1007D] text-[#F0F0F0]' type='submit'>Search</button>
             </form>
-            {user && <div>
-                <span>{user.username}</span>
-                <button onClick={handleAdd}><IoPersonAdd /></button>
-            </div>
+            {user &&
+                <div className='mt-2 flex items-center justify-between'>
+                    <div className='flex items-center justify-between gap-5'>
+                        <Image
+                            src="/e.jpg"
+                            alt="e"
+                            width={50}
+                            height={50}
+                            style={{ borderRadius: '50%', objectFit: 'cover' }}
+                        />
+                        <span className='text-[#F0F0F0]'>{user.username}</span>
+                    </div>
+                    <button className='p-2 text-[#F0F0F0]' onClick={handleAdd}><IoPersonAdd style={{ width: '22px', height: '22px' }} /></button>
+                </div>
             }
         </div>
+        //</div>
     )
 }

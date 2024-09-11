@@ -35,8 +35,11 @@ export default function Chatlist() {
         });
         return unsubscribe
     }, [currentUser.uid])
-
+    console.log(addUser)
+    console.log(addMode)
     const handleAddUserMode = () => {
+        console.log(addUser)
+        console.log(addMode)
         setAddUser((prev) => !prev)
         setAddMode((prev) => !prev)
     }
@@ -44,7 +47,7 @@ export default function Chatlist() {
     return (
         <div className='flex-2'>
             <UserInfo />
-            <div className='flex my-5'>
+            <div className='flex my-5 relative'>
                 <div className='flex-grow flex bg-[#E5E5E5] items-center rounded-md'>
                     <IoMdSearch style={{ width: '25px', height: '25px' }} />
                     <input type='text' placeholder='Search' className='pl-2 w-4/5 bg-transparent text-[#1F1F1F] border-none outline-none' />
