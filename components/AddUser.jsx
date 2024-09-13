@@ -83,8 +83,8 @@ export default function AddUser() {
                 <div className='mt-2 flex items-center justify-between'>
                     <div className='flex items-center justify-between gap-5'>
                         <Image
-                            src="/e.jpg"
-                            alt="e"
+                            src="/default.jpg"
+                            alt="picture"
                             width={50}
                             height={50}
                             style={{ borderRadius: '50%', objectFit: 'cover' }}
