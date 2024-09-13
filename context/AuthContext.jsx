@@ -1,4 +1,5 @@
 'use client'
+import upload from '@/app/upload'
 import { auth, db } from '@/firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -16,15 +17,16 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true)
 
 
-    const signup = async (username, email, password) => {
+    const signup = async (username, email, password, picture) => {
         try {
             // create the user
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
+            const imgUrl = await upload(picture.file)
             // add data to the object
             await setDoc(doc(db, 'users', userCredential.user.uid), {
                 username,
                 email: userCredential.user.email,
+                picture: imgUrl,
                 createdAt: new Date(),
                 id: userCredential.user.uid,
             });

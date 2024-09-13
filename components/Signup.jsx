@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import Button from './Button';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import Image from 'next/image';
 const fugazOne = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
 export default function Signup() {
@@ -12,6 +13,8 @@ export default function Signup() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [authenticating, setAuthenticating] = useState(false)
+    const [picture, setPicture] = useState({ file: null, url: "" })
+
     const router = useRouter()
 
     const { signup } = useAuth()
@@ -20,7 +23,8 @@ export default function Signup() {
         e.preventDefault()
         setAuthenticating(true)
         try {
-            const registrationResult = await signup(username, email, password)
+            const registrationResult = await signup(username, email, password, picture)
+
             if (registrationResult.success) {
                 router.push("/login")
             } else {
@@ -33,11 +37,30 @@ export default function Signup() {
         }
     }
 
+    const handlePicture = (e) => {
+        if (e.target.files[0]) {
+            setPicture({
+                file: e.target.files[0],
+                url: URL.createObjectURL(e.target.files[0])
+            })
+        }
+    }
+
     return (
         <div className='flex flex-col flex-1 justify-center item-center gap-4 px-4'>
             <h3 className={' ' + fugazOne.className}>Sign Up</h3>
             <p>Nice to have you here!</p>
             <form onSubmit={handleSignUp} className='flex flex-col items-center gap-4 w-full max-w-[400px]'>
+                <label htmlFor='file' className='cursor-pointer flex items-center gap-2'>
+                    <Image
+                        src={picture.url || `/default.jpg`}
+                        alt='picture'
+                        width={50}
+                        height={50}
+                        style={{ borderRadius: '50%', objectFit: 'cover' }}
+                    />
+                    Upload a picture</label>
+                <input id='file' type='file' className='hidden' onChange={handlePicture} />
                 <input
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
