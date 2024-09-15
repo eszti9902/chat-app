@@ -1,7 +1,7 @@
 'use client'
 import { useAuth } from '@/context/AuthContext'
 import { db } from '@/firebase'
-import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { IoPersonAdd } from "react-icons/io5";
@@ -9,15 +9,15 @@ import { IoPersonAdd } from "react-icons/io5";
 export default function AddUser() {
     const [user, setUser] = useState(null)
     const [username, setUsername] = useState("")
-
     const { currentUser } = useAuth()
+
     const handleSearch = async (e) => {
         e.preventDefault()
         try {
-            const userRef = collection(db, "users");
+            const usersRef = collection(db, "users");
 
             // Search in users db based on condition
-            const q = query(userRef, where("username", "==", username));
+            const q = query(usersRef, where("username", "==", username));
             const querySnapshot = await getDocs(q)
             if (!querySnapshot.empty) {
                 setUser(querySnapshot.docs[0].data())
@@ -47,6 +47,24 @@ export default function AddUser() {
                 participants: [currentUser.uid, user.id]
             });
 
+            const currentUserChatDoc = doc(userChatsRef, currentUser.uid)
+            const selectedUserChatDoc = doc(userChatsRef, user.id)
+
+            const currentUserChatDocSnap = await getDoc(currentUserChatDoc)
+            const selectedUserChatDocSnap = await getDoc(selectedUserChatDoc)
+
+            if (!currentUserChatDocSnap.exists()) {
+                await setDoc(currentUserChatDoc, {
+                    chats: []
+                })
+            }
+
+            if (!selectedUserChatDocSnap.exists()) {
+                await setDoc(selectedUserChatDoc, {
+                    chats: []
+                })
+            }
+
             await updateDoc(doc(userChatsRef, user.id), {
                 chats: arrayUnion({
                     chatId: newChatRef.id,
@@ -71,9 +89,9 @@ export default function AddUser() {
     }
 
 
+    console.log(user)
 
     return (
-        //<div className='relative'>
         <div className='p-3 h-max w-max bg-[#D1007D] rounded inset-0 m-auto fixed items-center justify-center'>
             <form className='flex gap-2' onSubmit={handleSearch}>
                 <input className='p-2 rounded border-none outline-none w-4/5' type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -83,7 +101,7 @@ export default function AddUser() {
                 <div className='mt-2 flex items-center justify-between'>
                     <div className='flex items-center justify-between gap-5'>
                         <Image
-                            src="/default.jpg"
+                            src={user.picture || "/default.jpg"}
                             alt="picture"
                             width={50}
                             height={50}
@@ -95,6 +113,5 @@ export default function AddUser() {
                 </div>
             }
         </div>
-        //</div>
     )
 }
