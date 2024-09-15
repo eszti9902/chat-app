@@ -1,7 +1,7 @@
 'use client'
 import { useAuth } from '@/context/AuthContext'
 import { db } from '@/firebase'
-import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import AddUser from './AddUser'
 import UserInfo from './UserInfo'
@@ -10,10 +10,13 @@ import { IoAdd } from "react-icons/io5";
 import { FiMinus } from "react-icons/fi";
 import Image from 'next/image'
 
-export default function Chatlist() {
+export default function Chatlist(props) {
+    const { onSelectChat } = props
     const [chats, setChats] = useState([])
     const [addUser, setAddUser] = useState(false)
     const [addMode, setAddMode] = useState(true)
+    const [isChatOpen, setIsChatOpen] = useState(false)
+
 
     const { currentUser } = useAuth()
 
@@ -35,13 +38,30 @@ export default function Chatlist() {
         });
         return unsubscribe
     }, [currentUser.uid])
-    console.log(addUser)
-    console.log(addMode)
+
     const handleAddUserMode = () => {
-        console.log(addUser)
-        console.log(addMode)
         setAddUser((prev) => !prev)
         setAddMode((prev) => !prev)
+    }
+
+    const handleSelectChat = async (chat, receiverUser) => {
+        setIsChatOpen((prev) => !prev)
+        const userChats = chats.map(chat => {
+            const { user, ...rest } = chat
+            return rest
+        })
+        const chatIndex = userChats.findIndex(item => item.chatId === chat.chatId)
+        userChats[chatIndex].isSeen = true
+
+        const userChatsRef = doc(db, "userchats", currentUser.uid)
+        try {
+            await updateDoc(userChatsRef, {
+                chats: userChats
+            })
+        } catch (error) {
+            console.log(error.message)
+        }
+        onSelectChat(chat.chatId, receiverUser)
     }
 
     return (
@@ -57,10 +77,10 @@ export default function Chatlist() {
             </div>
             <div className='flex-1'>
                 {chats.map(chat => (
-                    <div key={chat.chatId}>
+                    <div key={chat.chatId} onClick={() => handleSelectChat(chat, chat.user)} className={`${chat?.isSeen ? 'bg-transparent text-black' : 'bg-[#D1007D] text-[#F0F0F0]'} ${isChatOpen && 'bg-transparent text-black'}`}>
                         <div className='flex items-center gap-5 border-b-2 py-2'>
                             <Image
-                                src="/e.jpg"
+                                src={chat.user.picture || "/default.jpg"}
                                 alt="e"
                                 width={50}
                                 height={50}
@@ -68,7 +88,8 @@ export default function Chatlist() {
                             />
                             <div>
                                 <span>{chat.user.username}</span>
-                                <p className='text-xs'>{chat.lastMessage}</p>
+                                {/* TODO */}
+                                <p className='text-xs'>{`${chat.receiverId === chat.user.id ? 'You: ' : ""}` + chat.lastMessage}</p>
                             </div>
                         </div>
                     </div>
