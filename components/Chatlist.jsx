@@ -16,28 +16,39 @@ export default function Chatlist(props) {
     const [addUser, setAddUser] = useState(false)
     const [addMode, setAddMode] = useState(true)
     const [isChatOpen, setIsChatOpen] = useState(false)
-
+    const [input, setInput] = useState("")
 
     const { currentUser } = useAuth()
 
     // listen on a document in real time
     useEffect(() => {
         const unsubscribe = onSnapshot(doc(db, "userchats", currentUser.uid), async (res) => {
-            const chatsArr = res.data().chats
+            const chatsArr = res.data()?.chats || []; // Ha nincs chats adat
+            console.log(chatsArr);
             const promises = chatsArr.map(async (chat) => {
-                console.log(chat.receiverId)
-                const userDocRef = doc(db, "users", chat.receiverId)
-                const userDocSnap = await getDoc(userDocRef)
+                console.log(chat)
+                // Ellenőrizzük, hogy az aktuális felhasználó a fogadó-e
+                const isCurrentUserReceiver = chat.receiverId === currentUser.uid;
+                const partnerId = isCurrentUserReceiver ? chat.senderId : chat.receiverId;
 
-                const user = userDocSnap.data()
-                return { ...chat, user }
-            })
+                // A beszélgető partner adatait töltjük le
+                const userDocRef = doc(db, "users", partnerId);
+                const userDocSnap = await getDoc(userDocRef);
+                const user = userDocSnap.data();
 
-            const chatData = await Promise.all(promises)
-            setChats(chatData.sort((a, b) => a.createdAt - b.createdAt))
+                return {
+                    ...chat,
+                    user, // A beszélgető partner adatai
+                    isCurrentUserReceiver // Boolean, amely jelzi, hogy a currentUser a fogadó-e
+                };
+            });
+
+            const chatData = await Promise.all(promises);
+            setChats(chatData.sort((a, b) => a.createdAt - b.createdAt));
         });
-        return unsubscribe
-    }, [currentUser.uid])
+        return () => unsubscribe();
+    }, [currentUser.uid]);
+
 
     const handleAddUserMode = () => {
         setAddUser((prev) => !prev)
@@ -63,21 +74,24 @@ export default function Chatlist(props) {
         }
         onSelectChat(chat.chatId, receiverUser)
     }
+    console.log(chats[0])
+
+    const filteredChats = chats.filter(chat => chat.user.username.toLowerCase().includes(input.toLowerCase()))
 
     return (
-        <div className='flex-2'>
+        < div className='flex-2' >
             <UserInfo />
             <div className='flex my-5 relative'>
                 <div className='flex-grow flex bg-[#E5E5E5] items-center rounded-md'>
                     <IoMdSearch style={{ width: '25px', height: '25px' }} />
-                    <input type='text' placeholder='Search' className='pl-2 w-4/5 bg-transparent text-[#1F1F1F] border-none outline-none' />
+                    <input type='text' placeholder='Search' onChange={(e) => setInput(e.target.value)} className='pl-2 w-4/5 bg-transparent text-[#1F1F1F] border-none outline-none' />
                 </div>
                 <button className='ml-2 bg-[#E5E5E5] rounded-md' type='button' onClick={handleAddUserMode}>{addMode ? <IoAdd style={{ width: '30px', height: '30px' }} /> : <FiMinus style={{ width: '30px', height: '30px' }} />}</button>
                 {addUser && <AddUser />}
             </div>
             <div className='flex-1'>
-                {chats.map(chat => (
-                    <div key={chat.chatId} onClick={() => handleSelectChat(chat, chat.user)} className={`${chat?.isSeen ? 'bg-transparent text-black' : 'bg-[#D1007D] text-[#F0F0F0]'} ${isChatOpen && 'bg-transparent text-black'}`}>
+                {filteredChats.map(chat => (
+                    <div key={chat.chatId} onClick={() => handleSelectChat(chat, chat.user)} className={`bg-transparent ${chat.isSeen ? 'text-black' : 'border-y-4 border-[#D1007D]'} ${isChatOpen && 'bg-transparent text-black'}`}>
                         <div className='flex items-center gap-5 border-b-2 py-2'>
                             <Image
                                 src={chat.user.picture || "/default.jpg"}
@@ -88,13 +102,12 @@ export default function Chatlist(props) {
                             />
                             <div>
                                 <span>{chat.user.username}</span>
-                                {/* TODO */}
-                                <p className='text-xs'>{`${chat.receiverId === chat.user.id ? 'You: ' : ""}` + chat.lastMessage}</p>
+                                <p className='text-xs w-full overflow-auto'>{chat.lastMessage}</p>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     )
 }
