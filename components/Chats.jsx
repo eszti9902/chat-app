@@ -79,7 +79,7 @@ export default function Chats(props) {
                     const userChatsData = userChatSnapshot.data()
                     console.log(userChatsData)
                     const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
-                    userChatsData.chats[chatIndex].lastMessage = img.url ? img.url : text
+                    userChatsData.chats[chatIndex].lastMessage = img.url ? 'Image' : text
                     userChatsData.chats[chatIndex].isSeen = id === currentUser.uid ? true : false
                     userChatsData.chats[chatIndex].updatedAt = Date.now()
 
