@@ -59,17 +59,15 @@ export default function Login() {
                             <RiLockPasswordLine style={{ width: '20px', height: '20px' }} className='pr-1' />
                         </div>
                         <div className='w-full'>
-                            <Button type="submit" text={authenticating ? "Submitting" : "Sumbit"} />
+                            <Button type="submit" text={authenticating ? "Submitting" : "Submit"} />
                         </div>
                     </form>
                 </div>
-                {/* <div className='my-5 flex flex-grow items-center justify-center'> */}
                 <p className='text-center my-5'>Don&#39;t have an account?
                     <Link href={"/signup"}>
                         <button className='text-base text-[#D1007D] font-bold pl-1'>Sign up</button>
                     </Link>
                 </p>
-                {/* </div> */}
                 <div className=''>
                     <Link href={"/"}>
                         <button className={'pl-6 ' + fugazOne.className} type="button">Back</button>
