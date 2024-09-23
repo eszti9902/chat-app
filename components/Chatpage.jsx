@@ -7,7 +7,8 @@ import Loading from './Loading'
 import Login from './Login'
 import AddUser from './AddUser'
 import Chats from './Chats'
-
+import { IoMenuSharp } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 
 export default function ChatPage() {
     const { currentUser, userDataObj, loading } = useAuth()
@@ -42,13 +43,13 @@ export default function ChatPage() {
     // localStorage.clear();
     // sessionStorage.clear();
     return (
-        <div className='flex flex-1 px-0 sm:px-8 h-full block'>
-            <div className={`${isChatlistVisible ? 'block' : 'hidden'} sm:block sm:w-1/5 w-1/2 h-full overflow-y-auto ${isChatlistVisible && 'mt-6 sm:mt-0'}`}>
+        <div className='flex flex-1 px-0 pt-6 sm:px-8 h-full block'>
+            <div className={`${isChatlistVisible ? 'block' : 'hidden'} sm:block sm:w-1/5 w-1/2 h-full overflow-y-auto ${isChatlistVisible && 'sm:mt-0'}`}>
                 <Chatlist onSelectChat={handleSelectChat} />
             </div>
-            <div className={`flex flex-1 sm:w-4/5 flex-col h-full ${selectedChatId && 'mt-6 sm:mt-0'}`}>
-                <div className='block sm:hidden fixed top-8 left-4 pt-5 pl-0 rounded-full'>
-                    <button className='font-bold text-[#D1007D]' onClick={toggleChatList}>{isChatlistVisible ? 'Close chatlist' : 'Open chatlist'}</button>
+            <div className={`flex flex-1 sm:w-4/5 flex-col h-full ${selectedChatId && 'sm:mt-0'}`}>
+                <div className='block sm:hidden fixed top-8 left-4 pt-5 pl-0'>
+                    <button onClick={toggleChatList}>{isChatlistVisible ? <IoClose style={{ width: '20px', height: '20px' }} /> : <IoMenuSharp style={{ width: '20px', height: '20px' }} />}</button>
                 </div>
                 {selectedChatId && <Chats chatId={selectedChatId} receiverUser={receiverUser} />}
             </div>

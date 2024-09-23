@@ -79,7 +79,7 @@ export default function Chatlist(props) {
     const filteredChats = chats.filter(chat => chat.user.username.toLowerCase().includes(input.toLowerCase()))
 
     return (
-        < div className='flex-2' >
+        < div className='flex-1' >
             <UserInfo />
             <div className='flex my-5 relative'>
                 <div className='flex-grow flex bg-[#E5E5E5] items-center rounded-md'>
