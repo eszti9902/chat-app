@@ -23,11 +23,8 @@ Send images and emojis during chat conversations.
 - ### Friend Management:
 Add and manage friends, with the ability to filter and search within your friend list.
 ![addnew](./readme_images/addnew.png)
-Find other registered users and start conversations.
+Find other registered users and start conversations even in mobile view.
 ![search](./readme_images/search.png)
-- ### Responsive Design:
-Fully responsive and optimized for mobile and desktop using Tailwind CSS.
-![phoneview](./readme_images/phoneview.png)
 
 
 ## Setup and Installation
