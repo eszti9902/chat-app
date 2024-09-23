@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next Chat - Real-time Messaging App
+Next Chat is a real-time messaging app built using Next.js, Firebase, and Tailwind CSS. The app allows users to register, log in, search for other users, connect with friends, and chat in real-time with support for text, images, and emojis. The app is fully responsive and optimized for mobile and desktop devices.
 
-## Getting Started
+![homepage](./readme_images/homepage.png)
 
-First, run the development server:
+## Tech Stack
+### Frontend:
+* [![Next][Next.js]][Next-url]
+### Styling:
+* [![Tailwind][Tailwind]][tailwind-url]
+### Backend & Database:
 
+* [![Firebase][Firebase]][firebase-url]
+
+## Features
+- ### User Authentication:
+Secure login and registration using Firebase Authentication.
+![register](./readme_images/register.png)
+- ### Real-time Chat and Multimedia Sharing:
+Instant messaging powered by Firebase, ensuring smooth real-time communication.
+Send images and emojis during chat conversations.
+![chatscreen](./readme_images/chatscreen.png)
+- ### Friend Management:
+Add and manage friends, with the ability to filter and search within your friend list.
+![addnew](./readme_images/addnew.png)
+Find other registered users and start conversations.
+![search](./readme_images/search.png)
+- ### Responsive Design:
+Fully responsive and optimized for mobile and desktop using Tailwind CSS.
+![phoneview](./readme_images/phoneview.png)
+
+
+## Setup and Installation
+### Prerequisites
+Ensure you have the following installed:
+
+  - [![nodejs][node.js]][node-url]
+  - [![npm][npm]][npm-url]
+
+
+Clone the Repository
+bash
+```bash
+git clone git@github.com:eszti9902/chat-app.git
+```
+- Navigate to the desired directory:
+```bash
+cd <directory>
+```
+- Install Dependencies
+```bash
+npm install
+```
+- Setup Firebase
+    - Go to the Firebase Console and create a new project.
+    - [![Firebase-console][Firebase-console]][firebase-console-url]
+    - Enable Firebase Authentication (Email/Password).
+    - Enable Firebase Realtime Database and configure the database rules (ensure rules allow read/write for authenticated users).
+- Create a .env file at the root of your project and add your Firebase config:
+```js
+NEXT_PUBLIC_API_KEY=your-api-key
+NEXT_PUBLIC_AUTH_DOMAIN=your-auth-domain
+NEXT_PUBLIC_PROJECT_ID=your-project-id
+NEXT_PUBLIC_STORAGE_BUCKET=your-storage-bucket
+NEXT_PUBLIC_MESSAGING_SENDER_ID=your-messaging-sender-id
+NEXT_PUBLIC_APP_ID=your-app-id
+```
+- Run the Development Server
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+- Open http://localhost:3000 to view the app in the browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
 
-To learn more about Next.js, take a look at the following resources:
+[Firebase]: https://img.shields.io/badge/firebase-001c55?style=for-the-badge&logo=firebase&logoColor=ff5400
+[firebase-url]: https://firebase.google.com/
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[Tailwind]: https://img.shields.io/badge/tailwind%20css-001c55?style=for-the-badge&logo=tailwindcss&logoColor=00b4d8
+[tailwind-url]: https://tailwindcss.com/
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[node.js]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[node-url]: https://nodejs.org/en
 
-## Deploy on Vercel
+[npm]: https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white
+[npm-url]: https://www.npmjs.com/
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[Firebase-console]: https://img.shields.io/badge/firebase%20console-001c55?style=for-the-badge&logo=firebase&logoColor=ff5400
+[firebase-console-url]: https://console.firebase.google.com/u/0/?_gl=1*v69sva*_ga*MjAyNzA1OTI5My4xNzIzOTI2ODU5*_ga_CW55HF8NVT*MTcyNzA3NjkwOS41OS4wLjE3MjcwNzY5MDkuMC4wLjA.
